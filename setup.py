@@ -14,7 +14,7 @@ install_requires = [
     # build
     'setuptools',
     # runtime
-    'rocker',
+    'groot_rocker',
 ]
 
 tests_require = ['nose']
@@ -30,7 +30,7 @@ extras_require = {
 ##############################################################################
 
 d = setuptools.setup(
-    name='groot_rocker',
+    name='groot_rocker_extensions',
     version='0.1.0',
     packages=setuptools.find_packages(exclude=['tests*', 'docs*']),
     package_data={'groot_rocker_extensions': ['templates/*.em']},
@@ -50,14 +50,14 @@ d = setuptools.setup(
         'Topic :: Software Development :: Libraries'
     ],
     description="groot_rocker extensions for groot workflows",
-    long_description="A few extensions for groot workflows, these are not bundled with any particular consideration for, e.g. dependencies",
+    long_description="A few rocker extensiosn for groot workflows.",
     license='BSD',
     test_suite='nose.collector',
     python_requires='>=3.0',
     tests_require=tests_require,
     entry_points={
         'groot_rocker.extensions': [
-            'groot_named_prompt = groot_rocker_extensions.named_prompt:NamedPrompt',
+            'named_prompt = groot_rocker_extensions.named_prompt:NamedPrompt',
         ],
     },
 )

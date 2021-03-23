@@ -20,65 +20,23 @@ import pkgutil
 import os
 import pwd
 
-from rocker.extensions import RockerExtension
+import groot_rocker.extensions
 
 ##############################################################################
 # Extension
 ##############################################################################
 
 
-class Name(RockerExtension):
+class NamedPrompt(groot_rocker.extensions.RockerExtension):
 
-    name = "groot_name"
-
-    @classmethod
-    def get_name(cls):
-        return cls.name
-
-    def precondition_environment(self, cli_args):
-        pass
-
-    def validate_environment(self, cli_args):
-        pass
-
-    def get_preamble(self, cli_args):
-        return ''
-
-    def get_snippet(self, cli_args):
-        return ''
-
-    def get_docker_args(self, cli_args):
-        args = ''
-        name = cli_args.get('name', None)
-        if name:
-            args += f" --name {name} "
-        return args
-
-    @staticmethod
-    def register_arguments(parser, defaults={}):
-        parser.add_argument(
-            '--groot-name',
-            default='',
-            help='Name of the container, also sets ROCKER_NAME.'
-        )
-
-
-class NamedPrompt(RockerExtension):
-
-    name = 'groot_named_prompt'
+    name = 'named_prompt'
 
     @classmethod
     def get_name(cls):
         return cls.name
 
-    def get_environment_subs(self):
-        user_vars = ['name', 'uid', 'gid', 'gecos', 'dir', 'shell']
-        userinfo = pwd.getpwuid(os.getuid())
-        environment_substitutions = {
-            k: getattr(userinfo, 'pw_' + k)
-            for k in user_vars
-        }
-        return environment_substitutions
+    def __init__(self):
+        self.container_name = None
 
     def precondition_environment(self, cli_args):
         pass
@@ -91,22 +49,27 @@ class NamedPrompt(RockerExtension):
 
     def get_snippet(self, cli_args):
         snippet = pkgutil.get_data(
-            'groot_rocker',
+            'groot_rocker_extensions',
             'templates/named_prompt.Dockerfile.em'
         ).decode('utf-8')
-        substitutions = self.get_environment_subs()
-        print(f"Substitutions: {substitutions}")
+        substitutions = {}
+        userinfo = pwd.getpwuid(os.getuid())
+        substitutions['user_name'] = getattr(userinfo, 'pw_' + 'name')
+        if 'name' in cli_args and cli_args['name']:
+            substitutions['container_name'] = cli_args['name']
+        else:
+            substitutions['container_name'] = r'\h'
         dockerfile = em.expand(snippet, substitutions)
-        print(f"Dockerfile: {dockerfile}")
         return dockerfile
 
     def get_docker_args(self, cli_args):
         return ""
 
     @staticmethod
-    def register_arguments(parser):
+    def register_arguments(parser, defaults={}):
+        # TODO: what to do with the defaults arg?
         parser.add_argument(
-            '--groot-named-prompt',
+            '--named-prompt',
             action='store_true',
             help='export a named prompt via PS1 to ~/.bash_profile'
         )
