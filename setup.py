@@ -58,6 +58,7 @@ d = setuptools.setup(
     entry_points={
         'groot_rocker.extensions': [
             'named_prompt = groot_rocker_extensions.named_prompt:NamedPrompt',
+            'work_directory = groot_rocker_extensions.work_directory:WorkDirectory',
         ],
     },
 )

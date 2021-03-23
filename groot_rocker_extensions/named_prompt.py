@@ -20,7 +20,7 @@ import pkgutil
 import os
 import pwd
 
-import groot_rocker.extensions
+import groot_rocker
 
 ##############################################################################
 # Extension
@@ -34,9 +34,6 @@ class NamedPrompt(groot_rocker.extensions.RockerExtension):
     @classmethod
     def get_name(cls):
         return cls.name
-
-    def __init__(self):
-        self.container_name = None
 
     def precondition_environment(self, cli_args):
         pass

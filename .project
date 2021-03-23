@@ -3,6 +3,7 @@
 	<name>groot_rocker_extensions</name>
 	<comment></comment>
 	<projects>
+		<project>groot_rocker</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
