@@ -6,30 +6,51 @@ Extensions for [groot_rocker](https://github.com/stonier/groot_rocker).
 
 ## Development Sandbox
 
-Map user and a workspace into the container. Make it persistent, so the development environment
-can be further modified as needed.
+Build a basic development image - this will expedite image/container spin-up for
+individual workspace sandboxes. Here, this image will be named `groot:devel`:
+
+```
+$ groot-rocker \
+  --development-environment \
+  --tag groot:devel \
+  ubuntu:18.04 \
+  "echo 'Bless your noggin with a tickle from his most noodly appendages.'"
+```
 
 ```
 $ groot-rocker \
   --user \
-  --name=workspace \
   --persistent \
   --named-prompt \
   --tag groot:foo \
-  --work-directory /mnt/foo \
+  --name foo \
   --bind /mnt/mervin/workspaces/foo:/mnt/foo \
-  -- \
-  ubuntu:18.04 \
+  --work-directory /mnt/foo \
+  groot:devel \
   "/bin/bash --login -i"
 ```
 
-This will enter and leave a container around for development. `groot-docker-enter` won't work
-on a subsequent execution since the container is persisting. Inspect and re-enter via:
+This will enter and leave both a named container around for development. `groot-docker-enter` won't work on a subsequent execution since the container is persisting. Inspect and re-enter via:
 
 ```
 $ docker container ls -a
-CONTAINER ID IMAGE        COMMAND                CREATED       STATUS     NAMES
-4db981f214b5 groot:foo "/bin/bash --login -i" 2 mins ago Exited (0) workspace
+CONTAINER ID IMAGE        COMMAND             CREATED    STATUS     NAMES
+4db981f214b5 groot:foo "/bin/bash --login -i" 2 mins ago Exited (0) foo
 
-$ docker container start -i workspace
+$ docker container start -i foo
+```
+
+Re-use the development image to launch a different development environment (bar):
+
+```
+$ groot-rocker \
+  --user \
+  --persistent \
+  --named-prompt \
+  --tag groot:bar \
+  --name bar \
+  --bind /mnt/mervin/workspaces/foo:/mnt/bar \
+  --work-directory /mnt/bar \
+  groot:devel \
+  "/bin/bash --login -i"
 ```

@@ -58,6 +58,7 @@ d = setuptools.setup(
     entry_points={
         'groot_rocker.extensions': [
             'bind = groot_rocker_extensions.bind:Bind',
+            'development_environment = groot_rocker_extensions.development_environment:DevelopmentEnvironment',
             'named_prompt = groot_rocker_extensions.named_prompt:NamedPrompt',
             'user = groot_rocker_extensions.user:User',
             'work_directory = groot_rocker_extensions.work_directory:WorkDirectory',
