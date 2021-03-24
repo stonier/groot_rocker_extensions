@@ -58,7 +58,8 @@ class DevelopmentEnvironment(groot_rocker.extensions.RockerExtension):
             "system_dependencies": (
                "apt-utils bash-completion build-essential curl debian-keyring "
                "debian-archive-keyring git iproute2 iputils-ping locales lsb-release "
-               "net-tools openssh-server python3-dev software-properties-common sudo vim wget x11-apps "
+               "net-tools openssh-client openssh-server python3-dev software-properties-common "
+               "sudo vim wget x11-apps "
             ),
             "language": "en_US.UTF-8",
             # Richest color set - https://www.gnu.org/software/gettext/manual/html_node/The-TERM-variable.html

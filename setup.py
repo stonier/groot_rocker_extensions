@@ -60,6 +60,7 @@ d = setuptools.setup(
             'bind = groot_rocker_extensions.bind:Bind',
             'development_environment = groot_rocker_extensions.development_environment:DevelopmentEnvironment',
             'named_prompt = groot_rocker_extensions.named_prompt:NamedPrompt',
+            'ssh = groot_rocker_extensions.ssh:Ssh',
             'user = groot_rocker_extensions.user:User',
             'work_directory = groot_rocker_extensions.work_directory:WorkDirectory',
         ],
