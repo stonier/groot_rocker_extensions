@@ -9,11 +9,6 @@
 # Imports
 ##############################################################################
 
-import getpass
-import os
-import pathlib
-import pwd
-
 from . import utilities
 
 ##############################################################################
@@ -21,7 +16,7 @@ from . import utilities
 ##############################################################################
 
 
-class UserExtensionTest(utilities.ExtensionTestCase):
+class ExtensionTest(utilities.ExtensionTestCase):
 
     def setUp(self):
         self.extension_name = "named_prompt"

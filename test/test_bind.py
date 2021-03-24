@@ -19,5 +19,5 @@ from . import utilities
 class ExtensionTest(utilities.ExtensionTestCase):
 
     def setUp(self):
-        self.extension_name = "work_directory"
+        self.extension_name = "bind"
         super().setUp()

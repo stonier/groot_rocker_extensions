@@ -21,7 +21,7 @@ from . import utilities
 ##############################################################################
 
 
-class TestUserExtension(utilities.ExtensionTestCase):
+class ExtensionTest(utilities.ExtensionTestCase):
 
     def setUp(self):
         self.extension_name = "user"
