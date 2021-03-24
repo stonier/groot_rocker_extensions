@@ -15,10 +15,7 @@ Mount host paths in the docker container via docker's bind mechanism.
 # Imports
 ##############################################################################
 
-import em
 import os
-import pkgutil
-import pwd
 import re
 import typing
 
@@ -83,5 +80,5 @@ class Bind(groot_rocker.extensions.RockerExtension):
             nargs='+',
             metavar="SOURCE:TARGET",
             default=defaults.get('bind', None),
-            help="bind host folders at arbitrary mount points in the container"
+            help="bind host folders at arbitrary mount points"
         )

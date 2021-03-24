@@ -69,5 +69,5 @@ class WorkDirectory(groot_rocker.extensions.RockerExtension):
             '--work-directory',
             type=str,
             default=defaults.get(WorkDirectory.get_name(), None),
-            help='set the default work directory on entry into the container'
+            help='set the default work directory on container entry'
         )
