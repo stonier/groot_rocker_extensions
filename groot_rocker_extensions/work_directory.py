@@ -19,6 +19,7 @@ import em
 import os
 import pkgutil
 import re
+import typing
 
 import groot_rocker
 
@@ -28,27 +29,27 @@ import groot_rocker
 
 
 class WorkDirectory(groot_rocker.extensions.RockerExtension):
+    """
+    Be robust to '~', but otherwise just directly pass in the
+    specified working directory to the dockerfile WORKDIR variable.
+
+    .. todo:: check that the working directory actually exists in the image
+    """
 
     @classmethod
-    def get_name(cls):
-        return re.sub(r'(?<!^)(?=[A-Z])', '_', cls.__name__).lower()
+    def get_name(cls) -> str:
+        return re.sub(r'(?<!^)(?=[A-Z])', '_', cls.__name__).lower()  # CamelCase to underscores
 
-    def precondition_environment(self, unused_cli_args):
+    def precondition_environment(self, unused_cli_args: typing.Dict[str, str]):
         pass
 
-    def validate_environment(self, unused_cli_args):
+    def validate_environment(self, unused_cli_args: typing.Dict[str, str]):
         pass
 
-    def get_preamble(self, unused_cli_args):
+    def get_preamble(self, unused_cli_args: typing.Dict[str, str]):
         return ''
 
-    def get_snippet(self, cli_args):
-        """
-        Be robust to '~', but otherwise directly pass in the
-        specified working directory.
-
-        .. todo:: check that the working directory actually exists in the image
-        """
+    def get_snippet(self, cli_args: typing.Dict[str, str]):
         work_directory = cli_args[WorkDirectory.get_name()]
         if work_directory == "~":  # expand
             work_directory = os.path.expanduser("~")
@@ -57,10 +58,9 @@ class WorkDirectory(groot_rocker.extensions.RockerExtension):
             f"templates/{WorkDirectory.get_name()}.Dockerfile.em"
         ).decode('utf-8')
         substitutions = {WorkDirectory.get_name(): work_directory}
-        dockerfile = em.expand(snippet, substitutions)
-        return dockerfile
+        return em.expand(snippet, substitutions)
 
-    def get_docker_args(self, unused_cli_args):
+    def get_docker_args(self, unused_cli_args: typing.Dict[str, str]):
         return ''
 
     @staticmethod

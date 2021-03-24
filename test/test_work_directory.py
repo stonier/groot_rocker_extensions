@@ -1,18 +1,23 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 #
 # License: BSD
 #   https://raw.githubusercontent.com/stonier/groot_rocker_extensions/devel/LICENSE
 #
-##############################################################################
-# Documentation
-##############################################################################
 
-"""
-This is the top-level namespace of the groot_rocker_extensions package.
-"""
 ##############################################################################
 # Imports
 ##############################################################################
 
-from . import named_prompt  # noqa
-from . import user  # noqa
-from . import work_directory  #noqa
+from . import utilities
+
+##############################################################################
+# Tests
+##############################################################################
+
+
+class UserExtensionTest(utilities.ExtensionTestCase):
+
+    def setUp(self):
+        self.extension_name = "work_directory"
+        super().setUp()
