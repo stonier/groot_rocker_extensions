@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//test/test_bind.py=utf-8
 encoding//test/test_named_prompt.py=utf-8
+encoding//test/test_ssh.py=utf-8
 encoding//test/test_user.py=utf-8
 encoding//test/test_work_directory.py=utf-8
 encoding//test/utilities.py=utf-8
