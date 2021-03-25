@@ -6,21 +6,11 @@ Extensions for [groot_rocker](https://github.com/stonier/groot_rocker).
 
 ### Development Sandbox
 
-Build a basic development image - this will expedite image/container spin-up for
-individual workspace sandboxes. Here, this image will be named `groot:devel`:
+A customised image/container for your workspace - `foo`:
 
 ```
 $ groot-rocker \
   --development-environment \
-  --tag groot:devel \
-  ubuntu:18.04 \
-  "echo 'Bless your noggin with a tickle from his most noodly appendages.'"
-```
-
-Now launch a customised image/container for your workspace:
-
-```
-$ groot-rocker \
   --user \
   --ssh \
   --persistent \
@@ -29,24 +19,27 @@ $ groot-rocker \
   --name foo \
   --bind /mnt/mervin/workspaces/foo:/mnt/foo \
   --work-directory /mnt/foo \
-  groot:devel \
+  ubuntu:18.04 \
   "/bin/bash --login -i"
 ```
 
-This will enter and leave both a named container around for development. `groot-docker-enter` won't work on a subsequent execution since the container is persisting. Inspect and re-enter via:
+This will create both a named image (`groot:foo`) and container (`foo`). The named image
+is useful merely for image management. The named container is very useful for subsequent interactions
+with the container. Note that the same command if executed again would fail since the container is persisting. To enter the container again:
 
 ```
 $ docker container ls -a
-CONTAINER ID IMAGE        COMMAND             CREATED    STATUS     NAMES
+CONTAINER ID IMAGE     COMMAND             CREATED    STATUS     NAMES
 4db981f214b5 groot:foo "/bin/bash --login -i" 2 mins ago Exited (0) foo
 
 $ docker container start -i foo
 ```
 
-Re-use the development image to launch a different development environment (bar):
+Launch a different development environment - `bar`:
 
 ```
 $ groot-rocker \
+  --development-environment \
   --user \
   --ssh \
   --persistent \
@@ -78,3 +71,39 @@ PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 64 bytes from 172.17.0.2: icmp_seq=1 ttl=64 time=0.047 ms
 $ ssh `whoami`@192.168.1.4  # replace this ip with your host's ip
 ```
+
+### Nvidia Examples
+
+Be sure to install [nvidia-docker 2](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker).
+
+A benchmarking test:
+
+```
+$ groot-rocker \
+  --nvidia \
+  --user \
+  --tag groot:glmark2 \
+  ubuntu:18.04 \
+  "glmark2"
+```
+
+
+An nvidia enabled sandbox - simply add `--nvidia` to the argument list for your usual sandbox:
+
+```
+$ groot-rocker \
+  --development-environment \
+  --nvidia \
+  --user \
+  --ssh \
+  --persistent \
+  --named-prompt \
+  --tag groot:foo \
+  --name foo \
+  --bind /mnt/mervin/workspaces/foo:/mnt/foo \
+  --work-directory /mnt/foo \
+  ubuntu:18.04 \
+  "/bin/bash --login -i"
+```
+
+Once inside, test the nvidia performace with `glmark2`.
