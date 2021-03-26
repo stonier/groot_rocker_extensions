@@ -11,7 +11,6 @@
 
 import argparse
 import em
-import inspect
 import unittest
 
 import groot_rocker
