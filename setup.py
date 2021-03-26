@@ -56,6 +56,9 @@ d = setuptools.setup(
     python_requires='>=3.0',
     tests_require=tests_require,
     entry_points={
+        'console_scripts': [
+            'groot-rocker-workspace = groot_rocker_extensions.main:main_workspace',
+        ],
         'groot_rocker.extensions': [
             'bind = groot_rocker_extensions.bind:Bind',
             'development_environment = groot_rocker_extensions.development_environment:DevelopmentEnvironment',
