@@ -4,27 +4,15 @@ Extensions for [groot_rocker](https://github.com/stonier/groot_rocker).
 
 ## Examples
 
-### Development Sandbox
+### Development Workspace
 
-A customised image/container for your workspace - `foo`:
+A customised image/container for your development workspace (`foo`):
 
 ```
-$ groot-rocker \
-  --development-environment \
-  --user \
-  --git \
-  --ssh \
-  --persistent \
-  --named-prompt \
-  --tag groot:foo \
-  --name foo \
-  --bind /mnt/mervin/workspaces/foo:/mnt/foo \
-  --work-directory /mnt/foo \
-  ubuntu:18.04 \
-  "/bin/bash --login -i"
+$ groot-rocker-workspace --name foo --bind /mnt/mervin/workspaces/foo:/mnt/foo --work-directory /mnt/foo ubuntu:18.04
 ```
 
-This will create both a named image (`groot:foo`) and container (`foo`). The named image
+This will create both a named image (`workspace:foo`) and container (`foo`). The named image
 is useful merely for image management. The named container is very useful for subsequent interactions
 with the container. Note that the same command if executed again would fail since the container is persisting. To enter the container again:
 
@@ -39,19 +27,7 @@ $ docker container start -i foo
 Launch a different development environment - `bar`:
 
 ```
-$ groot-rocker \
-  --development-environment \
-  --user \
-  --git \
-  --ssh \
-  --persistent \
-  --named-prompt \
-  --tag groot:bar \
-  --name bar \
-  --bind /mnt/mervin/workspaces/foo:/mnt/bar \
-  --work-directory /mnt/bar \
-  groot:devel \
-  "/bin/bash --login -i"
+$ groot-rocker-workspace --name bar --bind /mnt/mervin/workspaces/bar:/mnt/bar --work-directory /mnt/foo ubuntu:18.04
 ```
 
 Ping between the two containers across the docker bridge:
@@ -74,7 +50,27 @@ PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 $ ssh `whoami`@192.168.1.4  # replace this ip with your host's ip
 ```
 
-### Nvidia Examples
+
+The `groot-rocker-sandbox` is actually, merely a convenience wrapper around the underlying `groot-rocker` command. Fully expanded:
+
+```
+$ groot-rocker \
+  --development-environment \
+  --user \
+  --git \
+  --ssh \
+  --persistent \
+  --named-prompt \
+  --tag workspace:foo \
+  --name foo \
+  --bind /mnt/mervin/workspaces/foo:/mnt/foo \
+  --work-directory /mnt/foo \
+  ubuntu:18.04 \
+  "/bin/bash --login -i"
+```
+
+
+### Nvidia Benchmark
 
 Be sure to install [nvidia-docker 2](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker).
 
@@ -89,24 +85,18 @@ $ groot-rocker \
   "glmark2"
 ```
 
+### Nvidia Workspace
 
-An nvidia enabled sandbox - simply add `--nvidia` to the argument list for your usual sandbox:
+An nvidia enabled workspace - simply add `--nvidia` to the argument list for a development workspace:
 
 ```
-$ groot-rocker \
-  --development-environment \
-  --nvidia \
-  --user \
-  --git \
-  --ssh \
-  --persistent \
-  --named-prompt \
-  --tag groot:foo \
+$ groot-rocker-workspace \
   --name foo \
   --bind /mnt/mervin/workspaces/foo:/mnt/foo \
-  --work-directory /mnt/foo \
-  ubuntu:18.04 \
-  "/bin/bash --login -i"
+  --work-directory \
+  --nvidia
+  /mnt/foo \
+  ubuntu:18.04
 ```
 
 Once inside, test the nvidia performace with `glmark2`.
