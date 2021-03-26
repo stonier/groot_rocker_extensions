@@ -19,7 +19,7 @@ with the container. Note that the same command if executed again would fail sinc
 ```
 $ docker container ls -a
 CONTAINER ID IMAGE     COMMAND             CREATED    STATUS     NAMES
-4db981f214b5 groot:foo "/bin/bash --login -i" 2 mins ago Exited (0) foo
+4db981f214b5 devel:foo "/bin/bash --login -i" 2 mins ago Exited (0) foo
 
 $ docker container start -i foo
 ```
@@ -60,9 +60,9 @@ $ groot-rocker \
   --git \
   --ssh \
   --persistent \
+  --image-name devel:foo \
+  --container-name foo \
   --named-prompt \
-  --tag workspace:foo \
-  --name foo \
   --bind /mnt/mervin/workspaces/foo:/mnt/foo \
   --work-directory /mnt/foo \
   ubuntu:18.04 \
@@ -80,7 +80,7 @@ A benchmarking test:
 $ groot-rocker \
   --nvidia \
   --user \
-  --tag groot:glmark2 \
+  --image-name groot:glmark2 \
   ubuntu:18.04 \
   "glmark2"
 ```
