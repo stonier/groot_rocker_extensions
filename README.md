@@ -12,6 +12,7 @@ A customised image/container for your workspace - `foo`:
 $ groot-rocker \
   --development-environment \
   --user \
+  --git \
   --ssh \
   --persistent \
   --named-prompt \
@@ -41,6 +42,7 @@ Launch a different development environment - `bar`:
 $ groot-rocker \
   --development-environment \
   --user \
+  --git \
   --ssh \
   --persistent \
   --named-prompt \
@@ -95,6 +97,7 @@ $ groot-rocker \
   --development-environment \
   --nvidia \
   --user \
+  --git \
   --ssh \
   --persistent \
   --named-prompt \

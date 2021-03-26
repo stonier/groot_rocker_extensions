@@ -59,6 +59,7 @@ d = setuptools.setup(
         'groot_rocker.extensions': [
             'bind = groot_rocker_extensions.bind:Bind',
             'development_environment = groot_rocker_extensions.development_environment:DevelopmentEnvironment',
+            'git = groot_rocker_extensions.git:Git',
             'named_prompt = groot_rocker_extensions.named_prompt:NamedPrompt',
             'nvidia = groot_rocker_extensions.nvidia:Nvidia',
             'ssh = groot_rocker_extensions.ssh:Ssh',
