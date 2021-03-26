@@ -74,11 +74,16 @@ class Bind(groot_rocker.extensions.RockerExtension):
 
     @staticmethod
     def register_arguments(parser, defaults={}):
+        # Be a little robust to user input defaults. Very often there is just
+        # one argument, this allows people to pass it in as a string, not a list
+        default = defaults.get(Bind.get_name(), [])
+        if isinstance(default, str):
+            default = [default]
         parser.add_argument(
             '--bind',
             type=str,
             nargs='+',
             metavar="SOURCE:TARGET",
-            default=defaults.get('bind', None),
+            default=default,
             help="bind host folders at arbitrary mount points"
         )

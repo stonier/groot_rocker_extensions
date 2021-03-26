@@ -94,6 +94,6 @@ class Nvidia(groot_rocker.extensions.RockerExtension):
         parser.add_argument(
             '--nvidia',
             action='store_true',
-            default=defaults.get('user', None),
+            default=defaults.get('nvidia', None),
             help="enable nvidia"
         )
