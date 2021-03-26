@@ -69,7 +69,9 @@ def main_workspace():
         help="base image to build from (required)"
     )
     options = vars(parser.parse_args())  # work with a dict object from here, not argparse.Namespace
-    options['tag'] = f"workspace:{options['name']}"
+    options['container_name'] = options['name']
+    options['image_name'] = f"devel:{options['name']}"
+    del options['name']
     options.update(defaults)
 
     groot_rocker.cli.build_and_run(options)
