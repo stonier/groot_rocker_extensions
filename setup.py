@@ -17,12 +17,9 @@ install_requires = [
     'groot_rocker',
 ]
 
-tests_require = ['nose']
-
 extras_require = {
-    'test': tests_require,
-    'docs': [],  # ["Sphinx", "sphinx-argparse", "sphinx_rtd_theme", "sphinx-autodoc-typehints"],
-    'debs': ['pyprof2calltree', 'stdeb', 'twine']
+    'tests': ['codecov', 'coverage', 'nose', 'pytest'],
+    'debs': ['stdeb', 'twine']
 }
 
 ##############################################################################
@@ -39,8 +36,7 @@ d = setuptools.setup(
     author='Daniel Stonier',
     maintainer='Daniel Stonier <d.stonier@gmail.com>',
     url='http://github.com/stonier/groot_rocker_extensions',
-    keywords=['docker', 'rocker'],
-    zip_safe=True,
+    keywords=['Docker'],
     classifiers=[
         'Environment :: Console',
         'Intended Audience :: Developers',
@@ -50,11 +46,9 @@ d = setuptools.setup(
         'Topic :: Software Development :: Libraries'
     ],
     description="groot_rocker extensions for groot workflows",
-    long_description="A few rocker extensiosn for groot workflows.",
+    long_description="A few groot_rocker extensiosn for groot workflows.",
     license='BSD',
-    test_suite='nose.collector',
     python_requires='>=3.0',
-    tests_require=tests_require,
     entry_points={
         'console_scripts': [
             'groot-rocker-workspace = groot_rocker_extensions.main:main_workspace',

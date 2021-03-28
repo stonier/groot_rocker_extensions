@@ -27,16 +27,16 @@ from . import utilities
 ##############################################################################
 
 
-def remove_image(tag: str):
+def remove_image(name: str):
     docker_client = groot_rocker.core.get_docker_client()
-    docker_client.remove_image(image=tag)
+    docker_client.remove_image(image=name)
 
 ##############################################################################
 # Tests
 ##############################################################################
 
 
-class ExtensionTest(utilities.ExtensionTestCase):
+class Nvidia(utilities.ExtensionTestCase):
     """
     By default, this test cleans up images and containers so that the user
     does not have to deal with dangling images (inadvertantly that also
@@ -67,25 +67,18 @@ class ExtensionTest(utilities.ExtensionTestCase):
     @classmethod
     def tearDownClass(self):
         # For quick debugging, comment out this method
-        for tag in self.dockerfile_tags:
-            print(f"Teardown {tag}")
-            remove_image("groot:os_detect_" + tag.replace(":", "_"))
-            remove_image(tag)
+        for image_name in self.dockerfile_tags:
+            print(f"Image Name: {image_name}")
+            # If the os detector images were made
+            print(f"Teardown {image_name}")
+            remove_image(name=image_name)
         try:
             remove_image("groot:os_detect_builder")
         except docker.errors.ImageNotFound:
             # some test methods do not build the os_detect_builder, that's ok
             pass
 
-    def setUp(self):
-        self.extension_name = "nvidia"
-        super().setUp()
-
-    def test_foo(self):
-        print("Testing Foo")
-        self.assertTrue(True)
-
-    def test_no_nvidia_glmark2(self):
+    def test_glmark2_validate_nvidia_not_enabled(self):
         for tag in self.dockerfile_tags:
             docker_tag = "groot:test_no_glmark2"
             dig = groot_rocker.core.DockerImageGenerator(
@@ -93,15 +86,15 @@ class ExtensionTest(utilities.ExtensionTestCase):
                 cliargs={},
                 base_image=tag
             )
-            result = dig.build(tag=docker_tag)
+            result = dig.build(image_name=docker_tag)
             utilities.assert_details(text="No Nvidia GLMark2 Build Result", expected=0, result=result)
             self.assertEqual(result, 0)
             result = dig.run()
             utilities.assert_details(text="No Nvidia GLMark2 Run Result", expected=1, result=result)
             self.assertEqual(result, 1)
-            remove_image(tag=docker_tag)
+            remove_image(name=docker_tag)
 
-    def test_nvidia_glmark2(self):
+    def test_glmark2_validate_nvidia_enabled(self):
         extensions = groot_rocker.core.list_plugins()
         desired_extensions = ['nvidia', 'user']
         active_extensions = [e() for e in extensions.values() if e.get_name() in desired_extensions]
@@ -112,16 +105,15 @@ class ExtensionTest(utilities.ExtensionTestCase):
                 cliargs={},
                 base_image=tag
             )
-            result = dig.build(tag=docker_tag)
+            result = dig.build(image_name=docker_tag)
             utilities.assert_details(text="Nvidia GLMark2 Build Result", expected=0, result=result)
             self.assertEqual(result, 0)
             result = dig.run()
             utilities.assert_details(text="Nvidia GLMark2 Run Result", expected=0, result=result)
             self.assertEqual(result, 0)
-            remove_image(tag=docker_tag)
+            remove_image(name=docker_tag)
 
-    def test_nvidia_base_image(self):
-        # base image doesn't exist
+    def test_base_image_does_not_exist(self):
         mock_cli_args = {'base_image': 'ros:does-not-exist'}
         print(console.green + f"Checking base image '{mock_cli_args['base_image']}'" + console.reset)
         with self.assertRaises(SystemExit) as cm:
@@ -129,7 +121,7 @@ class ExtensionTest(utilities.ExtensionTestCase):
         self.assertEqual(cm.exception.code, 1)
         utilities.assert_details(text="Base image does not exist", expected="SystemExit", result="SystemExit")
 
-        # unsupported version
+    def test_unsupported_base_image_version(self):
         mock_cli_args = {'base_image': 'ubuntu:17.04'}
         print(console.green + f"Checking base image '{mock_cli_args['base_image']}'" + console.reset)
         with self.assertRaises(SystemExit) as cm:
@@ -138,7 +130,7 @@ class ExtensionTest(utilities.ExtensionTestCase):
         utilities.assert_details(text="Unsupported Version", expected="SystemExit", result="SystemExit")
         remove_image("groot:os_detect_" + mock_cli_args['base_image'].replace(":", "_"))
 
-        # unsupported os
+    def test_unsupported_base_image_os(self):
         mock_cli_args = {'base_image': 'fedora'}
         print(console.green + f"Checking base image '{mock_cli_args['base_image']}'" + console.reset)
         with self.assertRaises(SystemExit) as cm:

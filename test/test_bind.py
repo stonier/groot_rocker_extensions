@@ -16,8 +16,5 @@ from . import utilities
 ##############################################################################
 
 
-class ExtensionTest(utilities.ExtensionTestCase):
-
-    def setUp(self):
-        self.extension_name = "bind"
-        super().setUp()
+class Bind(utilities.ExtensionTestCase):
+    pass

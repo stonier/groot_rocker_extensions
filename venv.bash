@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Script for setting up the development environment.
-#source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
 PROJECT=groot_rocker
 SRC_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
@@ -70,6 +68,33 @@ install_package ()
 
 ##############################################################################
 
+install_nvidia_docker2 ()
+{
+  PACKAGE_NAME=nvidia-docker2
+  dpkg -s ${PACKAGE_NAME} > /dev/null
+  if [ $? -ne 0 ]; then
+    HOST_DISTRIBUTION=$(. /etc/os-release; echo $ID$VERSION_ID)
+    curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+    curl -s -L https://nvidia.github.io/nvidia-docker/${HOST_DISTRIBUTION}/nvidia-docker.list | \
+                sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+    sudo apt-get update
+    sudo apt-get -q -y install ${PACKAGE_NAME} > /dev/null
+    if [ $? -ne 0 ]; then
+        pretty_error "  $(padded_message ${PACKAGE_NAME} "failed")"
+        return 1
+    fi
+    # sudo pkill -SIGHUP dockerd
+    # sudo service docker restart
+    sudo systemctl restart docker
+pretty_warning "  $(padded_message ${PACKAGE_NAME} "installed")"
+  else
+    pretty_print "  $(padded_message ${PACKAGE_NAME} "found")"
+    return 0
+  fi
+  return 0
+}
+##############################################################################
+
 #############################
 # Checks
 #############################
@@ -87,6 +112,8 @@ fi
 pretty_header "System Dependencies"
 install_package python3-dev || return
 install_package python3-venv || return
+install_package docker.io || exit 1
+install_nvidia_docker2 || exit 1
 
 #############################
 # Virtual Env
@@ -116,20 +143,11 @@ python3 -m pip install -U pip
 pip3 install wheel
 pip3 install "setuptools==45.2"
 
-# Get all dependencies for testing, doc generation
+pip3 install -e .[tests]
+pip3 install -e .[packaging]
 
-# pip install -e .[docs]
-# we have to restrict versions because of bleeding edge incompatibilities
-# pip3 install -r rtd-requirements.txt
-pip3 install -e .[test]
-pip3 install -e .[debs]
+# Useful if you want to build groot_rocker in tandem
+# pip install -e /path/to/groot_rocker_workspace
 
 # NB: this automagically nabs install_requires
 python3 setup.py develop
-
-echo ""
-echo "Leave the virtual environment with 'deactivate'"
-echo ""
-echo "I'm grooty, you should be too."
-echo ""
-

@@ -8,17 +8,16 @@
 ##############################################################################
 
 """
-Export a coloured, named prompt to ~/.bash_profile on container creation.
+Transfer a user's git configuration to the docker container. This extension
+really only makes sense with the 'user' extension, but won't fail if that
+has not been activated.
 """
 
 ##############################################################################
 # Imports
 ##############################################################################
 
-import em
-import pkgutil
 import os
-import pwd
 import re
 import typing
 
@@ -29,8 +28,11 @@ import groot_rocker
 ##############################################################################
 
 
-class NamedPrompt(groot_rocker.extensions.RockerExtension):
-
+class Git(groot_rocker.extensions.RockerExtension):
+    """
+    Transfers system and user (if the user extension has been selected) git
+    configuration files to the docker container as volumes.
+    """
     @classmethod
     def get_name(cls) -> str:
         return re.sub(r'(?<!^)(?=[A-Z])', '_', cls.__name__).lower()  # CamelCase to underscores
@@ -44,29 +46,27 @@ class NamedPrompt(groot_rocker.extensions.RockerExtension):
     def get_preamble(self, unused_cli_args: typing.Dict[str, str]) -> str:
         return ''
 
-    def get_snippet(self, cli_args: typing.Dict[str, str]) -> str:
-        snippet = pkgutil.get_data(
-            'groot_rocker_extensions',
-            'templates/named_prompt.Dockerfile.em'
-        ).decode('utf-8')
-        substitutions = {}
-        userinfo = pwd.getpwuid(os.getuid())
-        substitutions['user_name'] = getattr(userinfo, 'pw_' + 'name')
-        if 'name' in cli_args and cli_args['name']:
-            substitutions['container_name'] = cli_args['name']
-        else:
-            substitutions['container_name'] = r'\h'
-        dockerfile = em.expand(snippet, substitutions)
-        return dockerfile
+    def get_snippet(self, unused_cli_args: typing.Dict[str, str]) -> str:
+        return ''
 
-    def get_docker_args(self, unused_cli_args: typing.Dict[str, str]) -> str:
-        return ""
+    def get_docker_args(self, cli_args: typing.Dict[str, str]) -> str:
+        args = ''
+        system_gitconfig = '/etc/gitconfig'
+        user_gitconfig = os.path.expanduser('~/.gitconfig')
+        user_gitconfig_target = '/root/.gitconfig'
+        if 'user' in cli_args and cli_args['user']:
+            user_gitconfig_target = user_gitconfig
+        if os.path.exists(system_gitconfig):
+            args += ' -v {system_gitconfig}:{system_gitconfig}:ro'.format(**locals())
+        if os.path.exists(user_gitconfig):
+            args += ' -v {user_gitconfig}:{user_gitconfig_target}:ro'.format(**locals())
+        return args
 
     @staticmethod
     def register_arguments(parser, defaults={}):
-        # TODO: what to do with the defaults arg?
         parser.add_argument(
-            '--named-prompt',
+            '--git',
             action='store_true',
-            help='export a named prompt via PS1 to ~/.bash_profile'
+            default=defaults.get('git', None),
+            help="use host settings (/etc/gitconfig and ~/.gitconfig)"
         )

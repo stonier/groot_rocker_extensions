@@ -11,6 +11,7 @@
 
 import argparse
 import em
+import re
 import unittest
 
 import groot_rocker
@@ -43,6 +44,7 @@ class ExtensionTestCase(unittest.TestCase):
          * set self.extension_name appropriately
          * call this (the parent setup() method)
         """
+        self.extension_name = re.sub(r'(?<!^)(?=[A-Z])', '_', self.__class__.__name__).lower()
         # Work around interference between empy Interpreter
         # stdout proxy and test runner. empy installs a proxy on stdout
         # to be able to capture the information.

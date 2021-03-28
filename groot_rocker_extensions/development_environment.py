@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #
 # License: BSD
-#   https://raw.githubusercontent.com/stonier/groot_rocker/devel/LICENSE
+#   https://raw.githubusercontent.com/stonier/groot_rocker_extensions/devel/LICENSE
 #
 ##############################################################################
 # Documentation
@@ -16,9 +16,7 @@ Configure and install tools for a generic linux development environment.
 ##############################################################################
 
 import em
-import os
 import pkgutil
-import pwd
 import re
 import typing
 

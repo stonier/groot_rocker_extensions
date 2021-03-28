@@ -2,20 +2,21 @@
 
 ```bash
 # run all tests in the current directory
-$ pytest-3
+$ pytest .
+$ nosetests .
 
 # run all tests with full stdout (-s / --capture=no)
-$ pytest-3 -s
+$ pytest -s
+$ nosetests -s .
 
 # run a test module
-$ pytest-3 -s test_user.py
+$ pytest -s test_user.py
+$ nosetests -s test_user.py
 
 # run a single test
-pytest-3 -s test_user.py::TestUserExtension::test_environment_queries
+$ pytest -s test_user.py::User::test_environment_queries
+$ nosetests -s test_user.py:User.test_environment_queries
 
 # run a set of tests (filtered by keywords)
-pytest-3 -s -k "TestUserExtension and test_extension_name"
-
-# run using setuptools
-$ python3 setup.py test
+$ pytest -s -k "User and test_extension_name"
 ```
