@@ -9,3 +9,6 @@ RUN DEBIAN__FRONTEND=noninteractive apt-get install -y @(system_dependencies)
 
 RUN locale-gen @(language)
 ENV LANG @(language)
+
+RUN echo "alias ll='ls --color=auto -alFNh'" >> /etc/bash.bashrc
+RUN echo "alias ls='ls --color=auto -Nh'" >> /etc/bash.bashrc

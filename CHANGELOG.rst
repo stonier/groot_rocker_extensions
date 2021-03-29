@@ -3,7 +3,8 @@ Release Notes
 
 Forthcoming
 -----------
-* [development_environment] configure a default timezone, `#23 <https://github.com/stonier/groot_rocker/pull/23>`_
+* [dev_env] configure some default bash aliases, `#26 <https://github.com/stonier/groot_rocker/pull/26>`_
+* [dev_env] configure a default timezone, `#25 <https://github.com/stonier/groot_rocker/pull/25>`_
 
 0.2.2 (2021-03-29)
 ------------------
