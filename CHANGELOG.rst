@@ -3,7 +3,7 @@ Release Notes
 
 Forthcoming
 -----------
-* ...
+* [development_environment] configure a default timezone, `#23 <https://github.com/stonier/groot_rocker/pull/23>`_
 
 0.2.2 (2021-03-29)
 ------------------
