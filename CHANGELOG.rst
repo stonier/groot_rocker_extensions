@@ -3,7 +3,7 @@ Release Notes
 
 Forthcoming
 -----------
-* ...
+* [named_prompt] bugfix for container_name, `#21 <https://github.com/stonier/groot_rocker/pull/21>`_
 
 0.2.1 (2021-03-28)
 ------------------
