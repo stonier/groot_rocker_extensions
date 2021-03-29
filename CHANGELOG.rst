@@ -3,6 +3,10 @@ Release Notes
 
 Forthcoming
 -----------
+* ...
+
+0.2.2 (2021-03-29)
+------------------
 * [g-r-workspace] error on no image, set workdir from bind, `#22 <https://github.com/stonier/groot_rocker/pull/22>`_
 * [named_prompt] bugfix for container_name, `#21 <https://github.com/stonier/groot_rocker/pull/21>`_
 

@@ -67,7 +67,12 @@ To test - try the workspace examples below.
 A customised image/container for your development workspace (`foo`):
 
 ```
+# Full suite of options
 $ groot-rocker-workspace --name foo --bind /mnt/mervin/workspaces/foo:/mnt/foo --work-directory /mnt/foo ubuntu:18.04
+
+# If --bind has only 1 argument, --work-directory will be automagically configured. The previous command
+# equivalent to:
+$ groot-rocker-workspace --name foo --bind /mnt/mervin/workspaces/foo:/mnt/foo -- ubuntu:18.04
 ```
 
 This will create both a named image (`workspace:foo`) and container (`foo`). The named image
@@ -85,7 +90,7 @@ $ docker container start -i foo
 Launch a different development environment - `bar`:
 
 ```
-$ groot-rocker-workspace --name bar --bind /mnt/mervin/workspaces/bar:/mnt/bar --work-directory /mnt/foo ubuntu:18.04
+$ groot-rocker-workspace --name bar --bind /mnt/mervin/workspaces/bar:/mnt/bar ubuntu:18.04
 ```
 
 Ping between the two containers across the docker bridge:
