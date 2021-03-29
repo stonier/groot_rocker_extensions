@@ -16,6 +16,7 @@ Configure and install tools for a generic linux development environment.
 ##############################################################################
 
 import em
+import os
 import pkgutil
 import re
 import typing
@@ -53,6 +54,7 @@ class DevelopmentEnvironment(groot_rocker.extensions.RockerExtension):
             'groot_rocker_extensions',
             f"templates/{DevelopmentEnvironment.get_name()}.Dockerfile.em").decode('utf-8')
         substitutions = {
+            "default_timezone": os.readlink("/etc/localtime"),
             "system_dependencies": (
                "apt-utils bash-completion build-essential curl debian-keyring "
                "debian-archive-keyring git iproute2 iputils-ping locales lsb-release "
