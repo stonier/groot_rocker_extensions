@@ -28,7 +28,7 @@ extras_require = {
 
 d = setuptools.setup(
     name='groot_rocker_extensions',
-    version='0.2.2',
+    version='0.2.3',
     packages=setuptools.find_packages(exclude=['tests*', 'docs*']),
     package_data={'groot_rocker_extensions': ['templates/*.em']},
     install_requires=install_requires,
