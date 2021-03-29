@@ -16,8 +16,10 @@ Console scripts that provide user conveniences.
 ##############################################################################
 
 import argparse
+import sys
 
 import groot_rocker
+import groot_rocker.console as console
 
 ##############################################################################
 # Sandbox
@@ -73,5 +75,14 @@ def main_workspace():
     options['image_name'] = f"devel:{options['name']}"
     del options['name']
     options.update(defaults)
-
+    if options['image'] is None:
+        console.error("No image was specified (hint: did you use --bind and not provide a '--' to close it's arguments?)")
+        sys.exit(1)
+    # convenience setting of work dir if there is only one mount point
+    if options['work_directory'] is None and (len(options['bind']) == 1):
+        bind_argument = options['bind'][0]
+        if ":" in bind_argument:
+            unused_source, options['work_directory'] = bind_argument.split(":")
+        else:
+            options['work_directory'] = bind_argument
     groot_rocker.cli.build_and_run(options)
