@@ -2,7 +2,7 @@
 
 Extensions for [groot_rocker](https://github.com/stonier/groot_rocker).
 
-* **bind**: mount a host dir at a specified location inside the container
+* **bind**: mount host dir(s) at specified location(s) inside the container
 * **development_environment**: system dependencies and env variables for development
 * **git**: transfer the user's git configuration across to the container
 * **named_prompt**: a coloured <user>@<container-name> prompt
@@ -70,8 +70,8 @@ A customised image/container for your development workspace (`foo`):
 # Full suite of options
 $ groot-rocker-workspace --name foo --bind /mnt/mervin/workspaces/foo:/mnt/foo --work-directory /mnt/foo ubuntu:18.04
 
-# If --bind has only 1 argument, --work-directory will be automagically configured. The previous command
-# equivalent to:
+# If --bind has only 1 argument, --work-directory will be automagically configured.
+# The previous command equivalent to:
 $ groot-rocker-workspace --name foo --bind /mnt/mervin/workspaces/foo:/mnt/foo -- ubuntu:18.04
 ```
 
