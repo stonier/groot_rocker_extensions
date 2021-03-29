@@ -11,6 +11,55 @@ Extensions for [groot_rocker](https://github.com/stonier/groot_rocker).
 * **user**: replicate the script's user in the image (useful for avoiding permission problems)
 * **work_directory**: specify the starting directory on entry into the container
 
+## Prerequisites
+
+Currently tested and used on Ubuntu 18.04 with Python v3.
+
+**Docker & NVidia**
+
+```
+# Docker
+$ sudo apt install docker.io
+
+# Nvidia Docker 2 - https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker
+#   Not required, but fetch if you want to enable the nvidia extension in groot_rocker_extensions
+$ HOST_DISTRIBUTION=$(. /etc/os-release; echo $ID$VERSION_ID)
+$ curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+$ curl -s -L https://nvidia.github.io/nvidia-docker/${HOST_DISTRIBUTION}/nvidia-docker.list | \
+$ sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+$ sudo apt-get update
+$ sudo apt-get -q -y install nvidia-docker2 > /dev/null
+$ sudo systemctl restart docker
+# Test
+$ docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
+```
+## Installation
+
+From PyPi: `pip3 -U install groot_rocker`
+
+In a Virtual Environment:
+
+```
+$ git clone https://github.com/stonier/groot_rocker.git ./groot_rocker
+$ cd groot_rocker
+$ . ./venv.bash
+$ groot-rocker --help
+# Build a .deb
+$ make deb
+```
+
+From PPA: 
+
+```
+$ sudo add-apt-repository ppa:d-stonier/snorriheim
+$ sudo apt update
+$ sudo apt install python3-groot-rocker-extensions
+$ groot-rocker --help
+$ groot-rocker-workspace --help
+```
+
+To test - try the workspace examples below.
+
 ## Examples
 
 **Development Workspace**
