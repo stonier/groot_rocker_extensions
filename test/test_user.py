@@ -21,11 +21,7 @@ from . import utilities
 ##############################################################################
 
 
-class ExtensionTest(utilities.ExtensionTestCase):
-
-    def setUp(self):
-        self.extension_name = "user"
-        super().setUp()
+class User(utilities.ExtensionTestCase):
 
     def test_environment_queries(self):
         env_subs = self.extension.get_environment_subs()

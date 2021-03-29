@@ -16,8 +16,5 @@ from . import utilities
 ##############################################################################
 
 
-class ExtensionTest(utilities.ExtensionTestCase):
-
-    def setUp(self):
-        self.extension_name = "work_directory"
-        super().setUp()
+class WorkDirectory(utilities.ExtensionTestCase):
+    pass

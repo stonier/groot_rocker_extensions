@@ -16,8 +16,5 @@ from . import utilities
 ##############################################################################
 
 
-class ExtensionTest(utilities.ExtensionTestCase):
-
-    def setUp(self):
-        self.extension_name = "named_prompt"
-        super().setUp()
+class NamedPrompt(utilities.ExtensionTestCase):
+    pass

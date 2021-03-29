@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #
 # License: BSD
-#   https://raw.githubusercontent.com/stonier/groot_rocker/devel/LICENSE
+#   https://raw.githubusercontent.com/stonier/groot_rocker_extensions/devel/LICENSE
 #
 ##############################################################################
 # Documentation

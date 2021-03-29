@@ -18,11 +18,7 @@ from . import utilities
 ##############################################################################
 
 
-class ExtensionTest(utilities.ExtensionTestCase):
-
-    def setUp(self):
-        self.extension_name = "git"
-        super().setUp()
+class Git(utilities.ExtensionTestCase):
 
     def test_detection(self):
         """

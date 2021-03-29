@@ -19,11 +19,7 @@ from . import utilities
 ##############################################################################
 
 
-class ExtensionTest(utilities.ExtensionTestCase):
-
-    def setUp(self):
-        self.extension_name = "ssh"
-        super().setUp()
+class Ssh(utilities.ExtensionTestCase):
 
     def test_ssh_auth_sock(self):
         mock_cli_args = {}

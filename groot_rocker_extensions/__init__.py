@@ -15,7 +15,10 @@ This is the top-level namespace of the groot_rocker_extensions package.
 
 from . import bind                     # noqa
 from . import development_environment  # noqa
+from . import git                      # noqa
+from . import main                     # noqa
 from . import named_prompt             # noqa
-from . import user                     # noqa
+from . import nvidia                   # noqa
 from . import ssh                      # noqa
+from . import user                     # noqa
 from . import work_directory           # noqa
