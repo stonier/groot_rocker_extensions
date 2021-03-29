@@ -2,9 +2,18 @@
 
 Extensions for [groot_rocker](https://github.com/stonier/groot_rocker).
 
+* **bind**: mount a host dir at a specified location inside the container
+* **development_environment**: system dependencies and env variables for development
+* **git**: transfer the user's git configuration across to the container
+* **named_prompt**: a coloured <user>@<container-name> prompt
+* **nvidia**: enable nvidia
+* **ssh**: install ssh dependencies, transfer the ssh agent into the container
+* **user**: replicate the script's user in the image (useful for avoiding permission problems)
+* **work_directory**: specify the starting directory on entry into the container
+
 ## Examples
 
-### Development Workspace
+**Development Workspace**
 
 A customised image/container for your development workspace (`foo`):
 
@@ -70,7 +79,7 @@ $ groot-rocker \
 ```
 
 
-### Nvidia Benchmark
+**Nvidia Benchmark**
 
 Be sure to install [nvidia-docker 2](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker).
 
@@ -85,7 +94,7 @@ $ groot-rocker \
   "glmark2"
 ```
 
-### Nvidia Workspace
+**Nvidia Workspace**
 
 An nvidia enabled workspace - simply add `--nvidia` to the argument list for a development workspace:
 
