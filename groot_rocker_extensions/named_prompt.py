@@ -52,8 +52,8 @@ class NamedPrompt(groot_rocker.extensions.RockerExtension):
         substitutions = {}
         userinfo = pwd.getpwuid(os.getuid())
         substitutions['user_name'] = getattr(userinfo, 'pw_' + 'name')
-        if 'name' in cli_args and cli_args['name']:
-            substitutions['container_name'] = cli_args['name']
+        if 'container_name' in cli_args and cli_args['container_name']:
+            substitutions['container_name'] = cli_args['container_name']
         else:
             substitutions['container_name'] = r'\h'
         dockerfile = em.expand(snippet, substitutions)
