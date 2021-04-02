@@ -6,8 +6,9 @@
 ##############################################################################
 # Documentation
 ##############################################################################
+
 """
-Export a coloured, named prompt to ~/.bash_profile on container creation.
+Install colcon build tools.
 """
 
 ##############################################################################
@@ -15,8 +16,8 @@ Export a coloured, named prompt to ~/.bash_profile on container creation.
 ##############################################################################
 
 import em
-import pkgutil
 import os
+import pkgutil
 import pwd
 import re
 import typing
@@ -28,52 +29,45 @@ import groot_rocker
 ##############################################################################
 
 
-class NamedPrompt(groot_rocker.extensions.RockerExtension):
-
+class Colcon(groot_rocker.extensions.RockerExtension):
+    """
+    Installs tooling to support development with colcon.
+    """
     @classmethod
     def get_name(cls) -> str:
         return re.sub(r'(?<!^)(?=[A-Z])', '_', cls.__name__).lower()  # CamelCase to underscores
-
-    def precondition_environment(self, unused_cli_args: typing.Dict[str, str]):
-        pass
-
-    def validate_environment(self, unused_cli_args: typing.Dict[str, str]):
-        pass
 
     @staticmethod
     def desired_extensions():
         return {"user"}
 
-    def get_preamble(self, unused_cli_args: typing.Dict[str, str]) -> str:
-        return ''
+    def get_files(self, unused_cli_args):
+        templates_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "templates")
+        colcon_setup_path = os.path.join(templates_path, f"{Colcon.get_name()}_setup.bash")
+        file = open(colcon_setup_path, "r")
+        contents = file.read()
+        file.close()
+        return {"colcon_setup.bash": contents}
 
     def get_snippet(self, cli_args: typing.Dict[str, str]) -> str:
         snippet = pkgutil.get_data(
-            'groot_rocker_extensions',
-            'templates/named_prompt.Dockerfile.em'
+            "groot_rocker_extensions",
+            f"templates/{Colcon.get_name()}.Dockerfile.em"
         ).decode('utf-8')
+
         substitutions = {}
         if 'user' in cli_args and cli_args['user']:
-            userinfo = pwd.getpwuid(os.getuid())
-            substitutions['user_name'] = getattr(userinfo, 'pw_' + 'name')
-            substitutions['home_dir'] = f"/home/{substitutions['user_name']}"
+            substitutions['user_active'] = True
+            substitutions["user_name"] = getattr(pwd.getpwuid(os.getuid()), 'pw_' + 'name')
         else:
-            substitutions['user_name'] = "root"
-            substitutions['home_dir'] = "/root"
-        if 'container_name' in cli_args and cli_args['container_name']:
-            substitutions['container_name'] = cli_args['container_name']
-        else:
-            substitutions['container_name'] = r'\h'
+            substitutions['user_active'] = False
         return em.expand(snippet, substitutions)
-
-    def get_docker_args(self, unused_cli_args: typing.Dict[str, str]) -> str:
-        return ""
 
     @staticmethod
     def register_arguments(parser, defaults={}):
-        # TODO: what to do with the defaults arg?
         parser.add_argument(
-            '--named-prompt',
+            '--colcon',
             action='store_true',
-            help='export a named prompt via PS1 to ~/.bash_profile'
+            default=defaults.get(Colcon.get_name(), None),
+            help="install the colcon build tools"
         )

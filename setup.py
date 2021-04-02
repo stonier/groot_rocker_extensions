@@ -14,6 +14,7 @@ install_requires = [
     # build
     'setuptools',
     # runtime
+    'distro',
     'groot_rocker',
 ]
 
@@ -55,6 +56,7 @@ d = setuptools.setup(
         ],
         'groot_rocker.extensions': [
             'bind = groot_rocker_extensions.bind:Bind',
+            'colcon = groot_rocker_extensions.colcon:Colcon',
             'development_environment = groot_rocker_extensions.development_environment:DevelopmentEnvironment',
             'git = groot_rocker_extensions.git:Git',
             'named_prompt = groot_rocker_extensions.named_prompt:NamedPrompt',

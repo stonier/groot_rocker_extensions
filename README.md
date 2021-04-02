@@ -51,7 +51,7 @@ $ make deb
 From PPA: 
 
 ```
-$ sudo add-apt-repository ppa:d-stonier/snorriheim
+$ sudo apt-add-repository ppa:d-stonier/snorriheim
 $ sudo apt update
 $ sudo apt install python3-groot-rocker-extensions
 $ groot-rocker --help

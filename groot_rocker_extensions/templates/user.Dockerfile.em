@@ -23,10 +23,18 @@ RUN mkdir -p "$(dirname "@(dir)")" && mkhomedir_helper @(name)
 @[end if]@
 # Commands below run as the developer user
 USER @(name)
-@[else]@
-# Detected user is root, which already exists so not creating new user.
-@[end if]@
-
 @[if not work_directory_active ]@
 WORKDIR /home/@(name)
 @[end if]@
+RUN echo "alias ll='ls --color=auto -alFNh'" >> ~/.bashrc
+RUN echo "alias ls='ls --color=auto -Nh'" >> ~/.bashrc
+@[else]@
+# Detected user is root, which already exists so not creating new user.
+RUN echo "alias ll='ls --color=auto -alFNh'" >> /etc/bash.bashrc
+RUN echo "alias ls='ls --color=auto -Nh'" >> /etc/bash.bashrc
+@[if not work_directory_active ]@
+WORKDIR /root
+@[end if]@
+@[end if]@
+
+
