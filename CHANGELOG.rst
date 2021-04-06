@@ -5,7 +5,7 @@ Forthcoming
 -----------
 * ...
 
-0.2.4 (2021-04-06)
+0.2.5 (2021-04-06)
 ------------------
 * [colcon] added extension `#28 <https://github.com/stonier/groot_rocker/pull/28>`_
 * [dev_env] bash aliases migrated to user `#28 <https://github.com/stonier/groot_rocker/pull/28>`_
