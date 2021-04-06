@@ -5,6 +5,13 @@ Forthcoming
 -----------
 * ...
 
+0.2.4 (2021-04-06)
+------------------
+* [colcon] added extension `#28 <https://github.com/stonier/groot_rocker/pull/28>`_
+* [dev_env] bash aliases migrated to user `#28 <https://github.com/stonier/groot_rocker/pull/28>`_
+* [ssh] agent disabled till compatibility with persistant can be resolved `#28 <https://github.com/stonier/groot_rocker/pull/28>`_
+* [g-r-workspace] added the network extension as an option `#28 <https://github.com/stonier/groot_rocker/pull/28>`_
+
 0.2.3 (2021-03-29)
 ------------------
 * [dev_env] configure some default bash aliases, `#26 <https://github.com/stonier/groot_rocker/pull/26>`_
