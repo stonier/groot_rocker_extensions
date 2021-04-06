@@ -60,7 +60,7 @@ def main_workspace():
     )
 
     extensions_group = parser.add_argument_group(title="Extensions")
-    extensions = ["bind", "nvidia", "work_directory"]
+    extensions = ["bind", "colcon", "network", "nvidia", "work_directory"]
     available_extensions = groot_rocker.core.list_plugins()  # typing.Dict[str, Extension]
     for extension in extensions:
         available_extensions[extension].register_arguments(extensions_group, defaults)

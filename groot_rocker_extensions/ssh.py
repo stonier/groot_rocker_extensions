@@ -59,13 +59,17 @@ class Ssh(groot_rocker.extensions.RockerExtension):
         return em.expand(snippet, {})
 
     def get_docker_args(self, cli_args: typing.Dict[str, str]):
+        """
+        It would be useful to enable SSH_AUTH_SOCK for passwordless logins.
+        This, however, fails with persistent containers since this hardcodes SSH_AUTH_SOCK
+        at the time of calling docker run to create the container. If the host reboots,
+        the location is no longer valid and a call to 'container start <name> -i' will
+        fail as reported in #27.
+        """
         args = ''
-        if 'SSH_AUTH_SOCK' in os.environ:
-            args += " -e SSH_AUTH_SOCK"
-            args += " --volume " + shlex.quote("{SSH_AUTH_SOCK}:{SSH_AUTH_SOCK}".format(**os.environ))
-            # Perhaps, not useful to do this - it will be missing, e.g. /etc/hosts information
-            # if "user" in cli_args:
-            #     args += " --volume " + shlex.quote("/home/{USER}/.ssh:/home/{USER}/.ssh".format(**os.environ))
+        # if 'SSH_AUTH_SOCK' in os.environ:
+        #     args += " -e SSH_AUTH_SOCK"
+        #     args += " --volume " + shlex.quote("{SSH_AUTH_SOCK}:{SSH_AUTH_SOCK}".format(**os.environ))
         return args
 
     @staticmethod

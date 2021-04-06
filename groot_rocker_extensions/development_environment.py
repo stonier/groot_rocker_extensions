@@ -38,15 +38,6 @@ class DevelopmentEnvironment(groot_rocker.extensions.RockerExtension):
     def get_name(cls) -> str:
         return re.sub(r'(?<!^)(?=[A-Z])', '_', cls.__name__).lower()  # CamelCase to underscores
 
-    def precondition_environment(self, unused_cli_args: typing.Dict[str, str]):
-        pass
-
-    def validate_environment(self, unused_cli_args: typing.Dict[str, str]):
-        pass
-
-    def get_preamble(self, unused_cli_args: typing.Dict[str, str]) -> str:
-        return ''
-
     def get_snippet(self, cli_args: typing.Dict[str, str]) -> str:
         """
         """
@@ -59,7 +50,7 @@ class DevelopmentEnvironment(groot_rocker.extensions.RockerExtension):
                "apt-utils bash-completion build-essential curl debian-keyring "
                "debian-archive-keyring git iproute2 iputils-ping locales lsb-release "
                "net-tools openssh-client openssh-server python3-dev software-properties-common "
-               "sudo vim wget x11-apps "
+               "sudo vim wget xdot x11-apps "
             ),
             "language": "en_US.UTF-8",
             # Richest color set - https://www.gnu.org/software/gettext/manual/html_node/The-TERM-variable.html
