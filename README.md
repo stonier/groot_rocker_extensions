@@ -9,7 +9,7 @@ Extensions for [groot_rocker](https://github.com/stonier/groot_rocker).
 * **nvidia**: enable nvidia
 * **ssh**: install ssh dependencies, transfer the ssh agent into the container
 * **user**: replicate the script's user in the image (useful for avoiding permission problems)
-* **work_directory**: specify the starting directory on entry into the container
+* **work_directory**: specify the starting directory on entry into the container (use with --bind)
 
 ## Prerequisites
 
