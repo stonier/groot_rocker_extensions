@@ -114,7 +114,7 @@ $ ssh `whoami`@192.168.1.4  # replace this ip with your host's ip
 ```
 
 
-The `groot-rocker-sandbox` is actually, merely a convenience wrapper around the underlying `groot-rocker` command. Fully expanded:
+The `groot-rocker-workspace` script is a convenience wrapper around the underlying `groot-rocker` command. Fully expanded:
 
 ```
 $ groot-rocker \
@@ -156,9 +156,8 @@ An nvidia enabled workspace - simply add `--nvidia` to the argument list for a d
 $ groot-rocker-workspace \
   --name foo \
   --bind /mnt/mervin/workspaces/foo:/mnt/foo \
-  --work-directory \
-  --nvidia
-  /mnt/foo \
+  --work-directory /mnt/foo \
+  --nvidia \
   ubuntu:18.04
 ```
 
