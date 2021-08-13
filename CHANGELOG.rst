@@ -5,6 +5,10 @@ Forthcoming
 -----------
 * ...
 
+0.3.0 (2021-08-13)
+------------------
+* [nvidia] add vulkan capability `#29 <https://github.com/stonier/groot_rocker/pull/29>`_
+
 0.2.6 (2021-04-06)
 ------------------
 * [colcon] added extension `#28 <https://github.com/stonier/groot_rocker/pull/28>`_

@@ -16,8 +16,6 @@ install_requires = [
     # runtime
     'distro',
     'groot_rocker',
-    # make up for a dependency missed by docker (i.e. groot_rocker->docker->six)
-    'six'
 ]
 
 extras_require = {
@@ -31,7 +29,7 @@ extras_require = {
 
 d = setuptools.setup(
     name='groot_rocker_extensions',
-    version='0.2.6',
+    version='0.3.0',
     packages=setuptools.find_packages(exclude=['tests*', 'docs*']),
     package_data={'groot_rocker_extensions': ['templates/*.em', 'templates/*.bash']},
     install_requires=install_requires,
