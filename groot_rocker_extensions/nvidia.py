@@ -87,7 +87,7 @@ class Nvidia(groot_rocker.extensions.RockerExtension):
         return em.expand(snippet, substitutions)
 
     def get_docker_args(self, unused_cli_args: typing.Dict[str, str]) -> str:
-        return " --gpus all --volume /tmp/.X11-unix:/tmp/.X11-unix:ro --env=DISPLAY"
+        return ''' --gpus 'all,"capabilities=graphics,utility,display,video,compute"' --volume /tmp/.X11-unix:/tmp/.X11-unix:ro --env=DISPLAY'''
 
     @staticmethod
     def register_arguments(parser, defaults={}):
