@@ -51,7 +51,7 @@ class Nvidia(utilities.ExtensionTestCase):
     def setUpClass(self):
         client = groot_rocker.core.get_docker_client()
         self.dockerfile_tags = []
-        for distro_version in ['18.04']:
+        for distro_version in ['18.04', '20.04']:
             dockerfile = (
                 f"FROM ubuntu:{distro_version}\n"
                 "RUN apt-get update && apt-get install glmark2 -y && apt-get clean\n"

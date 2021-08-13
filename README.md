@@ -137,15 +137,14 @@ $ groot-rocker \
 
 Be sure to install [nvidia-docker 2](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker).
 
-A benchmarking test:
+Benchmarking tests:
 
 ```
-$ groot-rocker \
-  --nvidia \
-  --user \
-  --image-name groot:glmark2 \
-  ubuntu:18.04 \
-  "glmark2"
+# OpenGL
+$ groot-rocker --nvidia --user --image-name groot:glmark2 ubuntu:18.04 "glmark2"
+
+# Vulkan
+$ groot-rocker --nvidia --user --image-name groot:vulkan ubuntu:20.04 "vkcube"
 ```
 
 **Nvidia Workspace**

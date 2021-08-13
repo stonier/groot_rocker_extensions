@@ -16,6 +16,8 @@ install_requires = [
     # runtime
     'distro',
     'groot_rocker',
+    # make up for a dependency missed by docker (i.e. groot_rocker->docker->six)
+    'six'
 ]
 
 extras_require = {
