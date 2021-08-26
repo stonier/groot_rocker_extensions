@@ -35,6 +35,7 @@ def main_workspace():
         "mode": "interactive",
         "named_prompt": True,
         "persistent": True,
+        # "pulseaudio": False,
         "user": True,
         "ssh": True,
     }
@@ -60,7 +61,7 @@ def main_workspace():
     )
 
     extensions_group = parser.add_argument_group(title="Extensions")
-    extensions = ["bind", "colcon", "network", "nvidia", "work_directory"]
+    extensions = ["bind", "colcon", "network", "nvidia", "pulseaudio", "work_directory"]
     available_extensions = groot_rocker.core.list_plugins()  # typing.Dict[str, Extension]
     for extension in extensions:
         available_extensions[extension].register_arguments(extensions_group, defaults)
