@@ -15,7 +15,9 @@ Forward PulseAudio configuration into the container. Only tested in Ubuntu 18.
 # Imports
 ##############################################################################
 
+import em
 import os
+import pkgutil
 import re
 import typing
 
@@ -44,7 +46,15 @@ class PulseAudio(groot_rocker.extensions.RockerExtension):
         return ''
 
     def get_snippet(self, unused_cli_args: typing.Dict[str, str]) -> str:
-        return ''
+        snippet = pkgutil.get_data(
+            'groot_rocker_extensions',
+            f"templates/{PulseAudio.get_name()}.Dockerfile.em").decode('utf-8')
+        substitutions = {
+            "audio_dependencies": (
+                "libasound2-plugins"
+            )
+        }
+        return em.expand(snippet, substitutions)
 
     def get_docker_args(self, cli_args: typing.Dict[str, str]) -> str:
         args = ''
@@ -62,7 +72,7 @@ class PulseAudio(groot_rocker.extensions.RockerExtension):
     @staticmethod
     def register_arguments(parser, defaults={}):
         parser.add_argument(
-            '--pulse_audio',
+            '--pulse-audio',
             action='store_true',
             default=defaults.get('pulseaudio', None),
             help="Forward PulseAudio into the container"
