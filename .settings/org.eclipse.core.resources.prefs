@@ -4,6 +4,7 @@ encoding//test/test_colcon.py=utf-8
 encoding//test/test_git.py=utf-8
 encoding//test/test_named_prompt.py=utf-8
 encoding//test/test_nvidia.py=utf-8
+encoding//test/test_pulse_audio.py=utf-8
 encoding//test/test_ssh.py=utf-8
 encoding//test/test_user.py=utf-8
 encoding//test/test_work_directory.py=utf-8
