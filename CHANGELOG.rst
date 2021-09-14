@@ -5,6 +5,10 @@ Forthcoming
 -----------
 * ...
 
+0.4.0 (2021-09-13)
+------------------
+* [pulse] user-forwarded pulseaudio configuration `#30 <https://github.com/stonier/groot_rocker/pull/30>`_
+
 0.3.0 (2021-08-13)
 ------------------
 * [nvidia] add vulkan capability `#29 <https://github.com/stonier/groot_rocker/pull/29>`_
