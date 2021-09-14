@@ -22,5 +22,6 @@ from . import named_prompt             # noqa
 from . import nvidia                   # noqa
 from . import snorriheim               # noqa
 from . import ssh                      # noqa
+from . import pulse_audio               # noqa
 from . import user                     # noqa
 from . import work_directory           # noqa

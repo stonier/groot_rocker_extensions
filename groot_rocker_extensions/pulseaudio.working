@@ -1,0 +1,92 @@
+#!/usr/bin/env python
+#
+# License: BSD
+#   https://raw.githubusercontent.com/stonier/groot_rocker_extensions/devel/LICENSE
+#
+##############################################################################
+# Documentation
+##############################################################################
+
+"""
+Forward PulseAudio configuration into the container. Only tested in Ubuntu 18.
+"""
+
+##############################################################################
+# Imports
+##############################################################################
+
+import em
+import grp
+import os
+import pkgutil
+import re
+import typing
+
+import groot_rocker
+
+##############################################################################
+# Extension
+##############################################################################
+
+
+class PulseAudio(groot_rocker.extensions.RockerExtension):
+    """
+    Forward PulseAudio configuration into the container. This will not work without --user.
+    """
+    @classmethod
+    def get_name(cls) -> str:
+        return re.sub(r'(?<!^)(?=[A-Z])', '_', cls.__name__).lower()  # CamelCase to underscores
+
+    def precondition_environment(self, unused_cli_args: typing.Dict[str, str]):
+        pass
+
+    def validate_environment(self, unused_cli_args: typing.Dict[str, str]):
+        pass
+
+    def get_preamble(self, unused_cli_args: typing.Dict[str, str]) -> str:
+        return ''
+
+    def get_snippet(self, unused_cli_args: typing.Dict[str, str]) -> str:
+        snippet = pkgutil.get_data(
+            'groot_rocker_extensions',
+            f"templates/{PulseAudio.get_name()}_snippet.Dockerfile.em").decode('utf-8')
+        substitutions = {
+            "audio_dependencies": (
+                "alsa-utils libasound2-plugins"
+            ),
+            "user_id": os.getuid()
+        }
+        return em.expand(snippet, substitutions)
+
+    def get_docker_args(self, cli_args: typing.Dict[str, str]) -> str:
+        substitutions = {
+            "audio_group_id": grp.getgrnam('audio').gr_gid,
+            "user_id": os.getuid(),
+            "XDG_RUNTIME_DIR": os.getenv('XDG_RUNTIME_DIR'),
+        }
+        args = (
+            " -v /usr/share/alsa:/usr/share/alsa "
+            " -v /run/user/%(user_id)s/pulse:/run/user/%(user_id)s/pulse --device /dev/snd "
+            " -e PULSE_SERVER=unix:%(XDG_RUNTIME_DIR)s/pulse/native -v %(XDG_RUNTIME_DIR)s/pulse/native:%(XDG_RUNTIME_DIR)s/pulse/native --group-add %(audio_group_id)s "
+        )
+        return args % substitutions
+        args = ''
+        # Ensure paths exist and add them to the run.
+        for source_path, target_path in [
+            ["/usr/share/alsa", "/usr/share/alsa"],
+            [os.path.expanduser('~/.config/pulse'), "/.config/pulse"],
+            [f"/run/user/{os.getuid()}/pulse/native", f"/run/user/{os.getuid()}/pulse/native"]
+        ]:
+            assert os.path.exists(source_path), f"Path {source_path} does not exist. You PulseAudio configuration differs."
+            args += f" -v {source_path}:{target_path}"
+        args += f' --env "PULSE_SERVER=unix:/run/user/{os.getuid()}/pulse/native"'
+        return args
+
+    @staticmethod
+    def register_arguments(parser, defaults={}):
+        parser.add_argument(
+            '--pulse-audio',
+            action='store_true',
+            default=defaults.get(PulseAudio.get_name(), None),
+            help="Forward PulseAudio into the container"
+        )

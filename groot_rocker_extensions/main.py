@@ -34,6 +34,7 @@ def main_workspace():
         "git": True,
         "mode": "interactive",
         "named_prompt": True,
+        "network": "host",
         "persistent": True,
         "user": True,
         "ssh": True,
@@ -45,6 +46,7 @@ def main_workspace():
             " - development_environment\n"
             " - git\n"
             " - named_prompt\n"
+            " - network (=host)\n"
             " - persistent\n"
             " - user\n"
             " - ssh\n"
@@ -60,8 +62,9 @@ def main_workspace():
     )
 
     extensions_group = parser.add_argument_group(title="Extensions")
-    extensions = ["bind", "colcon", "network", "nvidia", "work_directory"]
+    extensions = ["bind", "colcon", "nvidia", "pulse_audio", "work_directory"]
     available_extensions = groot_rocker.core.list_plugins()  # typing.Dict[str, Extension]
+    print(f"Exts: {available_extensions}")
     for extension in extensions:
         available_extensions[extension].register_arguments(extensions_group, defaults)
 
