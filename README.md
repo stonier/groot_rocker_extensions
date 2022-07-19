@@ -90,7 +90,7 @@ $ docker container start -i foo
 Launch a different development environment - `bar`:
 
 ```
-$ groot-rocker-workspace --name bar --bind /mnt/mervin/workspaces/bar:/mnt/bar ubuntu:18.04
+$ groot-rocker-workspace --name bar --bind /mnt/mervin/workspaces/bar:/mnt/bar -- ubuntu:18.04
 ```
 
 Ping between the two containers across the docker bridge:
