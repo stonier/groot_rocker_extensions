@@ -81,7 +81,7 @@ function install_debs()
 pretty_header "Variables"
 
 UBUNTU_DISTRO=`awk -F= '$1=="VERSION_CODENAME" { print $2 ;}' /etc/os-release`
-declare -A ros_distro_map=( ['bionic']='dashing' ['focal']='foxy' )
+declare -A ros_distro_map=( ['bionic']='dashing' ['focal']='foxy', ['jammy']='humble' )
 ROS_DISTRO=${ros_distro_map[${UBUNTU_DISTRO}]}
 
 BOOTSTRAP_DEBS=(curl gnupg2 lsb-release software-properties-common)
