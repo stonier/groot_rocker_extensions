@@ -71,7 +71,7 @@ install_package ()
 install_nvidia_docker2 ()
 {
   PACKAGE_NAME=nvidia-docker2
-  dpkg -s ${PACKAGE_NAME} > /dev/null
+  dpkg-query -W -f='${Status}' ${PACKAGE_NAME} | grep -q -P '^install ok installed$'
   if [ $? -ne 0 ]; then
     HOST_DISTRIBUTION=$(. /etc/os-release; echo $ID$VERSION_ID)
     curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
