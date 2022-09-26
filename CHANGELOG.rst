@@ -5,6 +5,11 @@ Forthcoming
 -----------
 * ...
 
+0.4.1 (2022-09-25)
+------------------
+* [infra] make dpkg-query robust against removed packages
+* [ros] associate ubuntu jammy with ros distro humble
+
 0.4.0 (2021-09-13)
 ------------------
 * [pulse] user-forwarded pulseaudio configuration `#30 <https://github.com/stonier/groot_rocker/pull/30>`_
